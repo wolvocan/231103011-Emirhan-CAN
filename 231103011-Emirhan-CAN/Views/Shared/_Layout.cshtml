@@ -1,0 +1,88 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - _231103011_Emirhan_CAN</title>
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    @* <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" /> *@
+    <link type="text/css" rel="stylesheet" href="~/css/styles.css">
+    @* <link rel="stylesheet" href="~/_231103011_Emirhan_CAN.styles.css" asp-append-version="true" /> *@
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
+    <meta name="google-site-verification" content="YY553GyHi8GFZMuBC7iFGsgREDt33qR1Sl7hKaSuzsM" />
+    <meta name="description" content="Kadıköy korku evi istanbul korku evi">
+    <meta name="author" content="dehşetin yüzü">
+    <meta name="content-language" content="tr">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="http://www.korkuevikadikoy.com/index.html">
+    <link rel="shortcut icon" href="images/favicon.png">
+    <link rel="publisher" href="https://plus.google.com/115306529212845963600/posts?hl=tr" />
+    <link rel="author" href="https://plus.google.com/115306529212845963600/posts?hl=tr" />
+    <meta property="og:url" content="http://www.korkuevikadikoy.com/index.html" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="Dehşetin Yüzü Evden Kaçış Oyunu ve Korku Evi Kadıköy" />
+    <meta property="og:image" content="http://www.korkuevikadikoy.com/images/logo.png" />
+    <meta property="og:description" content="Dehşetin Yüzü Kadıköy evden kaçış oyunu ve Kadıköy korku evi" />
+    <meta property="og:site_name" content="Dehşetin Yüzü Evden Kaçış Oyunu ve Korku Evi" />
+    <meta property="article:author" content="https://www.facebook.com/dehsetinyuzukorkuevi" />
+    <meta property="article:publisher" content="https://www.facebook.com/dehsetinyuzukorkuevi" />
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@@dehsetinyuzukorkuevi">
+    <meta name="twitter:creator" content="dehsetinyuzukorkuevi">
+    <meta name="twitter:title" content="Dehşetin Yüzü Evden Kaçış Oyunu ve Korku Evi">
+    <meta name="twitter:description" content="Dehşetin Yüzü kadıköy evden kaçış oyunu ve kadıköy korku evi">
+    <meta name="twitter:image:src" content="http://www.korkuevikadikoy.com/images/logo.png">
+
+    <!-- Google Tag Manager -->
+    <script>
+        (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','GTM-NBK2B4X');</script>
+    <!-- End Google Tag Manager -->
+
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <h1><a href="http://www.korkuevikadikoy.com" title="Dehşetin Yüzü Kadıköy Korku Evi"><img src="images/logo.png" alt="korku evi kadıköy" width="335" height="61"></a></h1>
+        </div>
+        <div class="container">
+            <nav>
+                <ul>
+                    <li><a href="~/" title="Ana sayfa">Ana Sayfa<span>Kadıköy Korku Evi</span></a></li>
+                    <li><a href="~/Kurallar" title="Kurallar">Kurallar<span>Korku Evi Kuralları</span></a></li>
+                    <li><a class="online-rez" href="~/Rezervasyon" title="Korku evi rezervasyon">Online Rezervasyon<span>Korku Evi Rezervasyon</span></a></li>
+                    <li><a href="~/Iletisim" title="İletişim">İletişim<span>İletişim Adreslerimiz</span></a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <div class="uckatli">
+        <img src="images/3katli.png" alt="kadikoy korku evi">
+    </div>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer>
+        <div class="container">
+            Copyright © 2021 <a href="~/" title="Kadıköy Korku Evi">Dehşetin Yüzü</a>
+            <br>
+            <div class="foot-socials">
+                <a href="https://www.instagram.com/dehsetinyuzukorkuevi" title="Dehşetin Yüzü Instagram" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.youtube.com/channel/UChtz4FzbXw2K05Xg5O2vdng" title="Dehşetin Yüzü Youtube" target="_blank"><i class="fab fa-youtube"></i></a>
+            </div>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

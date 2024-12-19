@@ -1,0 +1,54 @@
+﻿@model List<_231103011_Emirhan_CAN.Database.Personel>
+<!doctype html>
+<html lang="tr">
+<head>
+    <title>Admin Panel</title>
+    <link type="text/css" rel="stylesheet" href="css/site.css">
+    <script>
+        function girisYapildi(kda ,sifre ) {
+         function girisYapildi(kd, sifre) {
+            // Razor'dan gelen veriyi JSON formatında alıyoruz
+            var users = @Html.Raw(Json.Serialize(Model));
+
+            var loginSuccess = false;
+
+            // Kullanıcı adı ve şifreyi kontrol etme
+            for (var i = 0; i < users.length; i++) {
+                if (users[i].KullaniciAdi === kd && users[i].Sifre === sifre) {
+                    loginSuccess = true;
+                    break;
+                }
+            }
+
+            // Sonuç mesajı
+            if (loginSuccess) {
+                 <a asp-area="" asp-controller="Anasayfa" asp-action="Index1">Anasayfa </a>
+            } else {
+                alert("Kullanıcı adı veya şifre yanlış.");
+            }
+        }
+    </script>
+
+</head>
+<body>
+
+    <img id="resim2id" src="/3katli.png" alt="Alternate Text" />
+    <div class="reg-bg ">
+        <div class="regular home-another divcontainer boyutlandir">
+        </div>
+
+    </div>
+    <div class="info-adress d-table tableadres image-container1">
+        <label class="Giris">Kullanıcı Adı : </label>
+        <input id="kd" type="text" name="giris" value="" />
+        <br>
+        <label class="Giris">Şifre : </label>
+        <input id="sifre" type="password" name="giris" value="" />
+        <br />
+        <input type="button" name="giris" title="Giriş Yap" value="Giriş Yap" onclick="girisYapildi(document.getElementById('kd').value,document.getElementById('sifre').value)" />
+
+
+
+    </div>
+</body>
+</html>

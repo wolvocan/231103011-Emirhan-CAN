@@ -1,0 +1,35 @@
+﻿@model List<_231103011_Emirhan_CAN.Database.Iletisim>
+<div class="container">
+	<div class="but-calls">
+		<a onclick="return gtag_report_conversion('tel:+905452071104');" class="but-call" href="tel:+905452071104" title="Telefon İle Ara"><i class="fas fa-phone"></i> ARA: 0545 207 11 04</a>
+		<a onclick="return gtag_report_conversion('https://api.whatsapp.com/send?phone=+905452071104&amp;text=Merhaba');" class="but-whatsapp" href="https://api.whatsapp.com/send?phone=+905452071104&amp;text=Merhaba" rel="canonical" title="Whatsapp'tan yaz"><i class="fab fa-whatsapp"></i> Whatsapp'dan Yaz</a>
+		<a onclick="return gtag_report_conversion('rezervasyon.html');" class="but-whatsapp" href="~/Rezervasyon" rel="canonical" title="Rezervasyon">Rezervasyon</a>
+
+	</div>
+	<div class="reg-bg sub-bg">
+		<div class="reg-con">
+			<div class="d-table">
+				<div class="d-cell va-middle">
+					@foreach (var item in Model)
+					{
+						@Html.Raw(item.Adres)
+						<br><br>
+						@Html.Raw(item.Telno)
+						<br><br>
+						@Html.Raw(item.Konum)
+					}
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="info-adress d-table">
+		<span class="d-cell va-middle"><i class="fas fa-map-marker-alt"></i></span>
+		<span class="d-cell va-middle">
+			@foreach (var item in Model)
+			{
+				@Html.Raw(item.Adres)
+
+			}
+		</span>
+	</div>
+</div>

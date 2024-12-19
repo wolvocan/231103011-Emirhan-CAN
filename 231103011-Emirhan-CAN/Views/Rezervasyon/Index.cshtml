@@ -1,0 +1,955 @@
+﻿<style>
+	.month_navigation_button_custom {
+		background-color: #333333;
+	}
+
+		.month_navigation_button_custom:hover {
+			background-color: #00c16d;
+		}
+
+	.month_container_custom {
+		background-color:;
+	}
+
+	.month_name_custom {
+		color: #FFFFFF;
+	}
+
+	.year_name_custom {
+		color: #FFFFFF;
+	}
+
+	.weekdays_custom {
+		color: #FFFFFF;
+	}
+
+	.field_input_custom {
+		background-color: #FFFFFF;
+		color: #0C0C0C;
+	}
+
+	.book_now_custom {
+		background-color: #111111;
+		color: #FFFFFF;
+	}
+
+		.book_now_custom:hover {
+			background-color: #00c16d;
+			color: #FFFFFF;
+		}
+
+	.clear_custom {
+		background-color: #999999;
+		color: #FFFFFF;
+	}
+
+		.clear_custom:hover {
+			background-color: #00c16d;
+			color: #FFFFFF;
+		}
+</style>
+
+<link rel="stylesheet" href="~/css/mainstyle.css" type="text/css" />
+<div class="container">
+	<div class="but-calls">
+		<a onclick="return gtag_report_conversion('tel:+905452071104');" class="but-call" href="tel:+905452071104" title="Telefon İle Ara"><i class="fas fa-phone"></i> ARA: 0545 207 11 04</a>
+		<a onclick="return gtag_report_conversion('https://api.whatsapp.com/send?phone=+905452071104&amp;text=Merhaba');" class="but-whatsapp" href="https://api.whatsapp.com/send?phone=+905452071104&amp;text=Merhaba" rel="canonical" title="Whatsapp'tan yaz"><i class="fab fa-whatsapp"></i> Whatsapp'dan Yaz</a>
+		<a onclick="return gtag_report_conversion('rezervasyon.html');" class="but-whatsapp" href="~/Rezervasyon" rel="canonical" title="Rezervasyon">Rezervasyon</a>
+
+	</div>
+
+	<div class="reserve-editx">
+		<div class="spe-rev-col">
+			<h2 class="spe-h2-10">Dehşetin Yüzü Korku Evi Rezervasyon</h2>
+			<span class="spe-text-10">Rezervasyon yaptırmak istediğiniz tarih ve saati aşağıdaki panel üzerinden seçip, bilgileri doldurarak rezervasyonunuzu oluşturabilirsiniz.</span>
+		</div>
+
+		<!-- ===============================================================
+			js
+		================================================================ -->
+
+		<script language="javascript" type="text/javascript">
+			var currentMonth;
+			var currentYear;
+			var pageX;
+			var pageY;
+			var today= new Date();
+					var newday= new Date();
+
+			var booking_day_white_bg = '#25c587';
+			var booking_day_white_bg_hover = '#97d733';
+			var booking_day_black_bg = '#7acd43';
+			var booking_day_black_bg_hover = '#97d733';
+			var booking_day_white_line1_color = '#FFFFFF';
+			var booking_day_white_line1_color_hover = '#FFFFFF';
+			var booking_day_white_line2_color = '#ffffff';
+			var booking_day_white_line2_color_hover = '#FFFFFF';
+			var booking_day_black_line1_color = '#FFFFFF';
+			var booking_day_black_line1_color_hover = '#FFFFFF';
+			var booking_day_black_line2_color = '#FFFFFF';
+			var booking_day_black_line2_color_hover = '#ffffff';
+			var booking_recaptcha_style = 'white';
+
+			$(function() {
+				$('#back_today').fadeOut(0);
+				getMonthCalendar((newday.getMonth()+1),newday.getFullYear(),'5','');
+
+			});
+
+
+			function getMonthName(month) {
+				var m = new Array();
+				m[0] ="Ocak";
+				m[1] ="Şubat";
+				m[2] ="Mart";
+				m[3] ="Nisan";
+				m[4] ="Mayıs";
+				m[5] ="Haziran";
+				m[6] ="Temmuz";
+				m[7] ="Ağustos";
+				m[8] ="Eylül";
+				m[9] ="Ekim";
+				m[10] ="Kasım";
+				m[11] ="Aralık";
+				$('#month_name').html(m[(month-1)]);
+				currentMonth = month;
+
+				if((today.getMonth()+1)!=(month)) {
+					$('#back_today').fadeIn();
+				} else {
+					$('#back_today').fadeOut(0);
+				}
+			}
+
+
+			function showResponse(calendar_id) {
+				$('#container_all').parent().prepend('<div id="sfondo" class="modal_sfondo" onclick="hideResponse('+calendar_id+',\'\','+newday.getFullYear()+','+(newday.getMonth()+1)+')"></div>');
+				$('#ok_response').attr("href","javascript:hideResponse("+calendar_id+",'',"+newday.getFullYear()+","+(newday.getMonth()+1)+");");
+				$('#modal_response').fadeIn('slow');
+				$('#submit_button').removeAttr("disabled");
+			}
+
+			function showCaptchaError() {
+				$('#captcha_error').fadeIn();
+				$('#submit_button').removeAttr("disabled");
+			}
+
+			function clearForm() {
+				var formObj = document.forms[0];
+							formObj.reservation_name.value='';
+										formObj.reservation_surname.value='';
+										formObj.reservation_email.value='';
+										formObj.reservation_phone.value='';
+										formObj.reservation_message.value='';
+
+				$('#captcha_error').fadeOut();
+			}
+
+			function updateCalendarSelect(category) {
+				$.ajax({
+				  url: 'ajax/getCalendarsList.php?category_id='+category,
+				  success: function(data) {
+					  arrData = data.split('|');
+					  $('#calendar_select_input').html(arrData[0]);
+					  $("#calendar_select_input").val($("#calendar_select_input option:first").val());
+									var newday= today;
+									$('#calendar_id').val($("#calendar_select_input option:first").val());
+					 getMonthCalendar((newday.getMonth()+1),newday.getFullYear(),arrData[1],'');
+				  }
+				});
+			}
+			function updateCalendar(calendar_id) {
+				$.ajax({
+				  url: 'ajax/getCalendar.php?calendar_id='+calendar_id,
+				  success: function(data) {
+
+									var newday= today;
+									$('#calendar_id').val(calendar_id);
+					 getMonthCalendar((newday.getMonth()+1),newday.getFullYear(),calendar_id,'');
+				  }
+				});
+
+			}
+
+		</script>
+		<script>
+				window.dataLayer = window.dataLayer || [];
+				function gtag(){dataLayer.push(arguments);}
+				gtag('js', new Date());
+
+				gtag('config', 'UA-120534910-1');
+				gtag('config', 'AW-803579597');
+				gtag('event', 'conversion', {
+				'send_to': 'AW-803579597/5G8hCNPQ3oYBEM3Nlv8C',
+				'event_callback': callback
+			});
+		</script>
+		<script type="text/javascript">
+			   /* <![CDATA[ */
+			   goog_snippet_vars = function() {
+				 var w = window;
+				 w.google_conversion_id = 803579597;
+				 w.google_conversion_label = "5G8hCNPQ3oYBEM3Nlv8C";
+				 w.google_remarketing_only = false;
+			   }
+			   // DO NOT CHANGE THE CODE BELOW.
+			   goog_report_conversion = function(url) {
+				 goog_snippet_vars();
+				 window.google_conversion_format = "3";
+				 var opt = new Object();
+				 opt.onload_callback = function() {
+				 if (typeof(url) != 'undefined') {
+				   window.location = url;
+				 }
+			   }
+			   var conv_handler = window['google_trackConversion'];
+			   if (typeof(conv_handler) == 'function') {
+				 conv_handler(opt);
+			   }
+			}
+			/* ]]> */
+		</script>
+		<script type="text/javascript" src="//www.googleadservices.com/pagead/conversion_async.js">
+		</script>
+
+		<script type="text/javascript">
+			(function(a,e,c,f,g,h,b,d){var k={ak:"803579597",cl:"9gB7CIjw54kBEM3Nlv8C",autoreplace:"+905452071104"};a[c]=a[c]||function(){(a[c].q=a[c].q||[]).push(arguments)};a[g]||(a[g]=k.ak);b=e.createElement(h);b.async=1;b.src="//www.gstatic.com/wcm/loader.js";d=e.getElementsByTagName(h)[0];d.parentNode.insertBefore(b,d);a[f]=function(b,d,e){a[c](2,b,k,d,null,new Date,e)};a[f]()})(window,document,"_googWcmImpl","_googWcmGet","_googWcmAk","script");
+		</script>
+		<script async="" src="//www.gstatic.com/call-tracking/call-tracking_9.js" nonce="null"></script>
+		<script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script>
+		<script type="text/javascript" async="" src="https://www.googletagmanager.com/gtag/js?id=G-YKD2WHGGL2&amp;l=dataLayer&amp;cx=c&amp;gtm=457e4cc1za200zb830820308"></script>
+		<script async="" src="//www.gstatic.com/wcm/loader.js"></script>
+		<script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script>
+		<script type="text/javascript" async="" src="https://www.googletagmanager.com/gtag/js?id=G-0S7X8NGR5M&amp;l=dataLayer&amp;cx=c&amp;gtm=457e4cc1za200"></script>
+		<script type="text/javascript" async="" src="https://www.googletagmanager.com/gtag/js?id=AW-803579597&amp;l=dataLayer&amp;cx=c&amp;gtm=45He4cc1v830820308za200"></script>
+		<script type="text/javascript" async="" src="https://www.googletagmanager.com/gtag/js?id=UA-120534910-1&amp;l=dataLayer&amp;cx=c&amp;gtm=45He4cc1v830820308za200"></script>
+		<script async="" src="https://www.googletagmanager.com/gtm.js?id=GTM-NBK2B4X"></script>
+		<script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-99756413-1"></script>
+		<script language="javascript" type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
+		<script language="javascript" type="text/javascript" src="js/jquery.bxSlider.min.js"></script>
+		<script language="javascript" type="text/javascript" src="js/tmt_libs/tmt_core.js"></script>
+		<script language="javascript" type="text/javascript" src="js/tmt_libs/tmt_form.js"></script>
+		<script language="javascript" type="text/javascript" src="js/tmt_libs/tmt_validator.js"></script>
+		<script language="javascript" type="text/javascript" src="js/wach.calendar.min.js"></script>
+		<script language="javascript" type="text/javascript" src="js/lib.min.js"></script>
+		<script type="text/javascript" async="" src="https://googleads.g.doubleclick.net/pagead/viewthroughconversion/803579597/?random=1734644667040&amp;cv=11&amp;fst=1734644667040&amp;bg=ffffff&amp;guid=ON&amp;async=1&amp;gtm=45be4cc1za200zb830820308&amp;gcd=13l3l3l3l1l1&amp;dma=0&amp;tag_exp=101925629~102067555~102067808~102081485~102198178&amp;u_w=1920&amp;u_h=1080&amp;url=https%3A%2F%2Fkorkuevikadikoy.com%2Frezervasyon.html&amp;ref=https%3A%2F%2Fkorkuevikadikoy.com%2Filetisim.html&amp;hn=www.googleadservices.com&amp;frm=0&amp;tiba=Korku%20Evi%20Kad%C4%B1k%C3%B6y&amp;npa=0&amp;pscdl=noapi&amp;auid=1715572499.1734099812&amp;uaa=x86&amp;uab=64&amp;uafvl=Chromium%3B128.0.6613.178%7CNot%253BA%253DBrand%3B24.0.0.0%7COpera%2520GX%3B114.0.5282.202&amp;uamb=0&amp;uam=&amp;uap=Windows&amp;uapv=10.0.0&amp;uaw=0&amp;fledge=1&amp;data=event%3Dgtag.config&amp;rfmt=3&amp;fmt=4"></script>
+
+		<!-- ===============================================================
+			box preview available time slots
+		================================================================ -->
+		<div class="box_preview_container_all" id="box_slots" style="display:none">
+			<div class="box_preview_title" id="popup_title">Rezervasyon</div>
+			<div class="box_preview_slots_container" id="slots_popup">
+			</div>
+		</div>
+
+		<!-- ===============================================================
+			booking calendar begins here
+		================================================================ -->
+		<div class="main_container" id="container_all">
+
+			<!-- =======================================
+				header (month + navigation + select)
+			======================================== -->
+
+			<div class="header_container">
+				<!-- month and navigation -->
+				<div class="month_container_all">
+					<!-- month -->
+					<div class="month_container  month_container_custom">
+						<div class="font_custom month_name month_name_custom" id="month_name">Aralık</div>
+						<div class="font_custom month_year year_name_custom" id="month_year">2024</div>
+					</div>
+
+					<!-- navigation -->
+					<div class="month_nav_container" id="month_nav">
+						<div class="mont_nav_button_container" id="month_nav_prev"><a href="javascript:getPreviousMonth(5,'',0);" class="month_nav_button month_navigation_button_custom"><img src="images/prev.png"></a></div>
+						<div class="mont_nav_button_container" id="month_nav_next"><a href="javascript:getNextMonth(5,'',2);" class="month_nav_button month_navigation_button_custom"><img src="images/next.png"></a></div>
+					</div>
+					<div class="cleardiv"></div>
+					<div class="back_today" id="back_today" style="display: none;"><a href="javascript:getMonthCalendar((today.getMonth()+1),today.getFullYear(),$('#calendar_id').val(),'');">Bugüne Geri Dön</a></div>
+				</div>
+
+
+
+				<div class="select_calendar_container">
+				</div>
+
+
+
+			</div>
+
+			<div class="cleardiv"></div>
+
+			<!-- =======================================
+				calendar
+			======================================== -->
+			<!-- calendar -->
+			<div class="calendar_container_all">
+				<!-- days name -->
+				<div class="name_days_container" id="name_days_container">
+					<div class="font_custom day_name weekdays_custom">Pazartesi</div>
+					<div class="font_custom day_name weekdays_custom">Salı</div>
+					<div class="font_custom day_name weekdays_custom">Çarşamba</div>
+					<div class="font_custom day_name weekdays_custom">Perşembe</div>
+					<div class="font_custom day_name weekdays_custom">Cuma</div>
+					<div class="font_custom day_name weekdays_custom">Cumartesi</div>
+					<div class="font_custom day_name weekdays_custom" style="margin-right: 0px;">Pazar</div>
+
+				</div>
+
+				<!-- days -->
+				<div class="days_container_all" id="calendar_container">
+					<div class="day_container day_grey"><a style="background-color:#333333"></a></div>
+					<div class="day_container day_grey"><a style="background-color:#333333"></a></div>
+					<div class="day_container day_grey"><a style="background-color:#333333"></a></div>
+					<div class="day_container day_grey"><a style="background-color:#333333"></a></div>
+					<div class="day_container day_grey"><a style="background-color:#333333"></a></div>
+					<div class="day_container day_grey"><a style="background-color:#333333"></a></div>
+					<div class="day_container day_white" style="margin-right: 0px;">
+						<a style="cursor:pointer;background-color:#FFFFFF" year="2024" month="12" day="1" popup="1" over="0">
+							<div class="day_number" style="color:#CCCCCC">1</div>
+							<div class="day_book" style="color:#CCCCCC">
+							</div>
+							<div class="cleardiv"></div>
+							<div class="day_slots" style="color:#CCCCCC">
+								Müsait: 10
+							</div>
+
+						</a>
+					</div>
+					<div class="day_container day_white">
+						<a style="cursor:pointer;background-color:#FFFFFF" year="2024" month="12" day="2" popup="1" over="0">
+							<!-- giorno del mese -->
+							<div class="day_number" style="color:#CCCCCC">2</div>
+							<!-- book now o sold out -->
+							<div class="day_book" style="color:#CCCCCC">
+							</div>
+							<div class="cleardiv"></div>
+							<!-- time slots available -->
+							<div class="day_slots" style="color:#CCCCCC">
+								Müsait: 14
+							</div>
+
+						</a>
+					</div>
+					<div class="day_container day_white">
+						<a style="cursor:pointer;background-color:#FFFFFF" year="2024" month="12" day="3" popup="1" over="0">
+							<!-- giorno del mese -->
+							<div class="day_number" style="color:#CCCCCC">3</div>
+							<!-- book now o sold out -->
+							<div class="day_book" style="color:#CCCCCC">
+							</div>
+							<div class="cleardiv"></div>
+							<!-- time slots available -->
+							<div class="day_slots" style="color:#CCCCCC">
+								Müsait: 12
+							</div>
+
+						</a>
+					</div>
+					<div class="day_container day_white">
+						<a style="cursor:pointer;background-color:#FFFFFF" year="2024" month="12" day="4" popup="1" over="0">
+							<!-- giorno del mese -->
+							<div class="day_number" style="color:#CCCCCC">4</div>
+							<!-- book now o sold out -->
+							<div class="day_book" style="color:#CCCCCC">
+							</div>
+							<div class="cleardiv"></div>
+							<!-- time slots available -->
+							<div class="day_slots" style="color:#CCCCCC">
+								Müsait: 13
+							</div>
+
+						</a>
+					</div>
+					<div class="day_container day_white">
+						<a style="cursor:pointer;background-color:#FFFFFF" year="2024" month="12" day="5" popup="1" over="0">
+							<!-- giorno del mese -->
+							<div class="day_number" style="color:#CCCCCC">5</div>
+							<!-- book now o sold out -->
+							<div class="day_book" style="color:#CCCCCC">
+							</div>
+							<div class="cleardiv"></div>
+							<!-- time slots available -->
+							<div class="day_slots" style="color:#CCCCCC">
+								Müsait: 14
+							</div>
+
+						</a>
+					</div>
+					<div class="day_container day_white">
+						<a style="cursor:pointer;background-color:#FFFFFF" year="2024" month="12" day="6" popup="1" over="0">
+							<!-- giorno del mese -->
+							<div class="day_number" style="color:#CCCCCC">6</div>
+							<!-- book now o sold out -->
+							<div class="day_book" style="color:#CCCCCC">
+							</div>
+							<div class="cleardiv"></div>
+							<!-- time slots available -->
+							<div class="day_slots" style="color:#CCCCCC">
+								Müsait: 8
+							</div>
+
+						</a>
+					</div>
+					<div class="day_container day_white">
+						<a style="cursor:pointer;background-color:#FFFFFF" year="2024" month="12" day="7" popup="1" over="0">
+							<!-- giorno del mese -->
+							<div class="day_number" style="color:#CCCCCC">7</div>
+							<!-- book now o sold out -->
+							<div class="day_book" style="color:#CCCCCC">
+							</div>
+							<div class="cleardiv"></div>
+							<!-- time slots available -->
+							<div class="day_slots" style="color:#CCCCCC">
+								Müsait: 8
+							</div>
+
+						</a>
+					</div>
+					<div class="day_container day_white" style="margin-right: 0px;">
+						<a style="cursor:pointer;background-color:#FFFFFF" year="2024" month="12" day="8" popup="1" over="0">
+							<div class="day_number" style="color:#CCCCCC">8</div>
+							<div class="day_book" style="color:#CCCCCC">
+							</div>
+							<div class="cleardiv"></div>
+							<div class="day_slots" style="color:#CCCCCC">
+								Müsait: 5
+							</div>
+
+						</a>
+					</div>
+					<div class="day_container day_white">
+						<a style="cursor:pointer;background-color:#FFFFFF" year="2024" month="12" day="9" popup="1" over="0">
+							<!-- giorno del mese -->
+							<div class="day_number" style="color:#CCCCCC">9</div>
+							<!-- book now o sold out -->
+							<div class="day_book" style="color:#CCCCCC">
+							</div>
+							<div class="cleardiv"></div>
+							<!-- time slots available -->
+							<div class="day_slots" style="color:#CCCCCC">
+								Müsait: 14
+							</div>
+
+						</a>
+					</div>
+					<div class="day_container day_white">
+						<a style="cursor:pointer;background-color:#FFFFFF" year="2024" month="12" day="10" popup="1" over="0">
+							<!-- giorno del mese -->
+							<div class="day_number" style="color:#CCCCCC">10</div>
+							<!-- book now o sold out -->
+							<div class="day_book" style="color:#CCCCCC">
+							</div>
+							<div class="cleardiv"></div>
+							<!-- time slots available -->
+							<div class="day_slots" style="color:#CCCCCC">
+								Müsait: 11
+							</div>
+
+						</a>
+					</div>
+					<div class="day_container day_white">
+						<a style="cursor:pointer;background-color:#FFFFFF" year="2024" month="12" day="11" popup="1" over="0">
+							<!-- giorno del mese -->
+							<div class="day_number" style="color:#CCCCCC">11</div>
+							<!-- book now o sold out -->
+							<div class="day_book" style="color:#CCCCCC">
+							</div>
+							<div class="cleardiv"></div>
+							<!-- time slots available -->
+							<div class="day_slots" style="color:#CCCCCC">
+								Müsait: 13
+							</div>
+
+						</a>
+					</div>
+					<div class="day_container day_white">
+						<a style="cursor:pointer;background-color:#FFFFFF" year="2024" month="12" day="12" popup="1" over="0">
+							<!-- giorno del mese -->
+							<div class="day_number" style="color:#CCCCCC">12</div>
+							<!-- book now o sold out -->
+							<div class="day_book" style="color:#CCCCCC">
+							</div>
+							<div class="cleardiv"></div>
+							<!-- time slots available -->
+							<div class="day_slots" style="color:#CCCCCC">
+								Müsait: 13
+							</div>
+
+						</a>
+					</div>
+					<div class="day_container day_white">
+						<a style="cursor:pointer;background-color:#FFFFFF" year="2024" month="12" day="13" popup="1" over="0">
+							<!-- giorno del mese -->
+							<div class="day_number" style="color:#CCCCCC">13</div>
+							<!-- book now o sold out -->
+							<div class="day_book" style="color:#CCCCCC">
+							</div>
+							<div class="cleardiv"></div>
+							<!-- time slots available -->
+							<div class="day_slots" style="color:#CCCCCC">
+								Müsait: 14
+							</div>
+
+						</a>
+					</div>
+					<div class="day_container day_white">
+						<a style="cursor:pointer;background-color:#FFFFFF" year="2024" month="12" day="14" popup="1" over="0">
+							<!-- giorno del mese -->
+							<div class="day_number" style="color:#CCCCCC">14</div>
+							<!-- book now o sold out -->
+							<div class="day_book" style="color:#CCCCCC">
+							</div>
+							<div class="cleardiv"></div>
+							<!-- time slots available -->
+							<div class="day_slots" style="color:#CCCCCC">
+								Müsait: 8
+							</div>
+
+						</a>
+					</div>
+					<div class="day_container day_white" style="margin-right: 0px;">
+						<a style="cursor:pointer;background-color:#FFFFFF" year="2024" month="12" day="15" popup="1" over="0">
+							<div class="day_number" style="color:#CCCCCC">15</div>
+							<div class="day_book" style="color:#CCCCCC">
+							</div>
+							<div class="cleardiv"></div>
+							<div class="day_slots" style="color:#CCCCCC">
+								Müsait: 7
+							</div>
+
+						</a>
+					</div>
+					<div class="day_container day_white">
+						<a style="cursor:pointer;background-color:#FFFFFF" year="2024" month="12" day="16" popup="1" over="0">
+							<!-- giorno del mese -->
+							<div class="day_number" style="color:#CCCCCC">16</div>
+							<!-- book now o sold out -->
+							<div class="day_book" style="color:#CCCCCC">
+							</div>
+							<div class="cleardiv"></div>
+							<!-- time slots available -->
+							<div class="day_slots" style="color:#CCCCCC">
+								Müsait: 13
+							</div>
+
+						</a>
+					</div>
+					<div class="day_container day_white">
+						<a style="cursor:pointer;background-color:#FFFFFF" year="2024" month="12" day="17" popup="1" over="0">
+							<!-- giorno del mese -->
+							<div class="day_number" style="color:#CCCCCC">17</div>
+							<!-- book now o sold out -->
+							<div class="day_book" style="color:#CCCCCC">
+							</div>
+							<div class="cleardiv"></div>
+							<!-- time slots available -->
+							<div class="day_slots" style="color:#CCCCCC">
+								Müsait: 13
+							</div>
+
+						</a>
+					</div>
+					<div class="day_container day_white">
+						<a style="cursor:pointer;background-color:#FFFFFF" year="2024" month="12" day="18" popup="1" over="0">
+							<!-- giorno del mese -->
+							<div class="day_number" style="color:#CCCCCC">18</div>
+							<!-- book now o sold out -->
+							<div class="day_book" style="color:#CCCCCC">
+							</div>
+							<div class="cleardiv"></div>
+							<!-- time slots available -->
+							<div class="day_slots" style="color:#CCCCCC">
+								Müsait: 14
+							</div>
+
+						</a>
+					</div>
+					<div class="day_container day_black">
+						<a style="cursor:pointer;background-color:#7acd43" year="2024" month="12" day="19" popup="1" over="1">
+							<!-- giorno del mese -->
+							<div class="day_number" style="color:#FFFFFF">19</div>
+							<!-- book now o sold out -->
+							<div class="day_book" style="color:#FFFFFF">
+								REZERVASYON
+							</div>
+							<div class="cleardiv"></div>
+							<!-- time slots available -->
+							<div class="day_slots" style="color:#FFFFFF">
+								Müsait: 2
+							</div>
+
+						</a>
+					</div>
+					<div class="day_container day_white">
+						<a style="cursor:pointer;background-color:#25c587" year="2024" month="12" day="20" popup="1" over="1">
+							<!-- giorno del mese -->
+							<div class="day_number" style="color:#FFFFFF">20</div>
+							<!-- book now o sold out -->
+							<div class="day_book" style="color:#FFFFFF">
+								REZERVASYON
+							</div>
+							<div class="cleardiv"></div>
+							<!-- time slots available -->
+							<div class="day_slots" style="color:#ffffff">
+								Müsait: 13
+							</div>
+
+						</a>
+					</div>
+					<div class="day_container day_white">
+						<a style="cursor:pointer;background-color:#25c587" year="2024" month="12" day="21" popup="1" over="1">
+							<!-- giorno del mese -->
+							<div class="day_number" style="color:#FFFFFF">21</div>
+							<!-- book now o sold out -->
+							<div class="day_book" style="color:#FFFFFF">
+								REZERVASYON
+							</div>
+							<div class="cleardiv"></div>
+							<!-- time slots available -->
+							<div class="day_slots" style="color:#ffffff">
+								Müsait: 11
+							</div>
+
+						</a>
+					</div>
+					<div class="day_container day_white" style="margin-right: 0px;">
+						<a style="cursor:pointer;background-color:#25c587" year="2024" month="12" day="22" popup="1" over="1">
+							<div class="day_number" style="color:#FFFFFF">22</div>
+							<div class="day_book" style="color:#FFFFFF">
+								REZERVASYON
+							</div>
+							<div class="cleardiv"></div>
+							<div class="day_slots" style="color:#ffffff">
+								Müsait: 14
+							</div>
+
+						</a>
+					</div>
+					<div class="day_container day_white">
+						<a style="cursor:pointer;background-color:#25c587" year="2024" month="12" day="23" popup="1" over="1">
+							<!-- giorno del mese -->
+							<div class="day_number" style="color:#FFFFFF">23</div>
+							<!-- book now o sold out -->
+							<div class="day_book" style="color:#FFFFFF">
+								REZERVASYON
+							</div>
+							<div class="cleardiv"></div>
+							<!-- time slots available -->
+							<div class="day_slots" style="color:#ffffff">
+								Müsait: 14
+							</div>
+
+						</a>
+					</div>
+					<div class="day_container day_white">
+						<a style="cursor:pointer;background-color:#25c587" year="2024" month="12" day="24" popup="1" over="1">
+							<!-- giorno del mese -->
+							<div class="day_number" style="color:#FFFFFF">24</div>
+							<!-- book now o sold out -->
+							<div class="day_book" style="color:#FFFFFF">
+								REZERVASYON
+							</div>
+							<div class="cleardiv"></div>
+							<!-- time slots available -->
+							<div class="day_slots" style="color:#ffffff">
+								Müsait: 14
+							</div>
+
+						</a>
+					</div>
+					<div class="day_container day_white">
+						<a style="cursor:pointer;background-color:#25c587" year="2024" month="12" day="25" popup="1" over="1">
+							<!-- giorno del mese -->
+							<div class="day_number" style="color:#FFFFFF">25</div>
+							<!-- book now o sold out -->
+							<div class="day_book" style="color:#FFFFFF">
+								REZERVASYON
+							</div>
+							<div class="cleardiv"></div>
+							<!-- time slots available -->
+							<div class="day_slots" style="color:#ffffff">
+								Müsait: 14
+							</div>
+
+						</a>
+					</div>
+					<div class="day_container day_white">
+						<a style="cursor:pointer;background-color:#25c587" year="2024" month="12" day="26" popup="1" over="1">
+							<!-- giorno del mese -->
+							<div class="day_number" style="color:#FFFFFF">26</div>
+							<!-- book now o sold out -->
+							<div class="day_book" style="color:#FFFFFF">
+								REZERVASYON
+							</div>
+							<div class="cleardiv"></div>
+							<!-- time slots available -->
+							<div class="day_slots" style="color:#ffffff">
+								Müsait: 14
+							</div>
+
+						</a>
+					</div>
+					<div class="day_container day_white">
+						<a style="cursor:pointer;background-color:#25c587" year="2024" month="12" day="27" popup="1" over="1">
+							<!-- giorno del mese -->
+							<div class="day_number" style="color:#FFFFFF">27</div>
+							<!-- book now o sold out -->
+							<div class="day_book" style="color:#FFFFFF">
+								REZERVASYON
+							</div>
+							<div class="cleardiv"></div>
+							<!-- time slots available -->
+							<div class="day_slots" style="color:#ffffff">
+								Müsait: 14
+							</div>
+
+						</a>
+					</div>
+					<div class="day_container day_white">
+						<a style="cursor:pointer;background-color:#25c587" year="2024" month="12" day="28" popup="1" over="1">
+							<!-- giorno del mese -->
+							<div class="day_number" style="color:#FFFFFF">28</div>
+							<!-- book now o sold out -->
+							<div class="day_book" style="color:#FFFFFF">
+								REZERVASYON
+							</div>
+							<div class="cleardiv"></div>
+							<!-- time slots available -->
+							<div class="day_slots" style="color:#ffffff">
+								Müsait: 14
+							</div>
+
+						</a>
+					</div>
+					<div class="day_container day_white" style="margin-right: 0px;">
+						<a style="cursor:pointer;background-color:#25c587" year="2024" month="12" day="29" popup="1" over="1">
+							<div class="day_number" style="color:#FFFFFF">29</div>
+							<div class="day_book" style="color:#FFFFFF">
+								REZERVASYON
+							</div>
+							<div class="cleardiv"></div>
+							<div class="day_slots" style="color:#ffffff">
+								Müsait: 14
+							</div>
+
+						</a>
+					</div>
+					<div class="day_container day_white">
+						<a style="cursor:pointer;background-color:#25c587" year="2024" month="12" day="30" popup="1" over="1">
+							<!-- giorno del mese -->
+							<div class="day_number" style="color:#FFFFFF">30</div>
+							<!-- book now o sold out -->
+							<div class="day_book" style="color:#FFFFFF">
+								REZERVASYON
+							</div>
+							<div class="cleardiv"></div>
+							<!-- time slots available -->
+							<div class="day_slots" style="color:#ffffff">
+								Müsait: 14
+							</div>
+
+						</a>
+					</div>
+					<div class="day_container day_white">
+						<a style="cursor:pointer;background-color:#25c587" year="2024" month="12" day="31" popup="1" over="1">
+							<!-- giorno del mese -->
+							<div class="day_number" style="color:#FFFFFF">31</div>
+							<!-- book now o sold out -->
+							<div class="day_book" style="color:#FFFFFF">
+								REZERVASYON
+							</div>
+							<div class="cleardiv"></div>
+							<!-- time slots available -->
+							<div class="day_slots" style="color:#ffffff">
+								Müsait: 14
+							</div>
+
+						</a>
+					</div>
+					<div class="day_container day_grey"><a style="background-color:#333333"></a></div>
+					<div class="day_container day_grey"><a style="background-color:#333333"></a></div>
+					<div class="day_container day_grey"><a style="background-color:#333333"></a></div>
+					<div class="day_container day_grey"><a style="background-color:#333333"></a></div>
+					<div class="day_container day_grey" style="margin-right: 0px;"><a style="background-color:#333333"></a></div>
+
+
+				</div>
+			</div>
+
+			<!-- =======================================
+				booking form. It appears once user clicked on a day
+			======================================== -->
+			<form name="slot_reservation" id="slot_reservation" action="ajax/doReservation.php" method="post" target="iframe_submit" tmt:validate="true">
+				<div class="booking_container_all" id="booking_container" style="display:none">
+					<div id="slot_form">
+					</div>
+					<input type="hidden" name="calendar_id" id="calendar_id" value="5">
+					<!-- rightside -->
+					<div class="booking_right" style="background-color:#333333;color:#FFFFFF">
+						<!-- name -->
+
+						<div class="booking_form_box_text">
+							<div class="booking_form_label">İsim Soyisim</div>
+							<div class="booking_form_input">
+								<input type="text" name="reservation_name" class="field_input_custom" id="input_booking" tmt:required="true" tmt:message="İsminizi yazınız">
+							</div>
+						</div>
+
+						<!-- surname -->
+
+						<div class="booking_form_box_text">
+							<div class="booking_form_label">Kişi Sayısı</div>
+							<div class="booking_form_input">
+								<input type="text" name="reservation_surname" class="field_input_custom" id="input_booking" tmt:required="true" tmt:message="Kişi sayısı yazınız">
+							</div>
+						</div>
+
+
+						<!-- name -->
+
+						<div class="booking_form_box_text">
+							<div class="booking_form_label">Email</div>
+							<div class="booking_form_input">
+								<input type="text" name="reservation_email" class="field_input_custom" id="input_booking" tmt:required="true" tmt:pattern="email" tmt:message="Email adresinizi yazınız">
+							</div>
+						</div>
+
+
+						<!-- name -->
+
+						<div class="booking_form_box_text">
+							<div class="booking_form_label">Telefon</div>
+							<div class="booking_form_input">
+								<input type="text" name="reservation_phone" class="field_input_custom" id="input_booking" tmt:required="true" tmt:message="Telefon numaranızı yazınız">
+							</div>
+						</div>
+
+
+
+						<!-- message -->
+
+						<div class="booking_form_box_textarea">
+							<div class="booking_form_label">Mesaj</div>
+							<div class="booking_form_input">
+								<textarea id="textarea_booking" class="field_input_custom" name="reservation_message" tmt:required="true" tmt:message="Mesajınızı yazınız"></textarea>
+							</div>
+						</div>
+
+						<input type="hidden" name="reservation_field1" value="">
+						<input type="hidden" name="reservation_field2" value="">
+						<input type="hidden" name="reservation_field3" value="">
+						<input type="hidden" name="reservation_field4" value="">
+						<!-- terms -->
+						<div class="cleardiv"></div>
+						<div class="booking_form_box">
+							<label>
+								<div class="booking_form_label">
+									<input type="checkbox" name="reservation_terms" value="checked" tmt:minchecked="1" tmt:message="Şartlar ve Koşullar'ı kabul etmeniz gerekmektedir">&nbsp;
+									<a href="http://www.therosered.com/sartlar-ve-kosullar.html" target="_blank" class="terms_link">Şartlar &amp; Koşullar ilkelerini okudum kabul ediyorum.</a>
+								</div>
+							</label>
+							<div class="booking_form_input"></div>
+						</div>
+						<!-- google capthca -->
+						<div class="cleardiv"></div>
+						<!-- book now button and clear -->
+						<div class="action_form_button">
+							<div class="book_now_button_container">
+								<input type="submit" id="submit_button" class="booking_button font_custom book_button book_now_custom" value="REZERVASYON YAP" style="cursor:pointer">
+
+							</div>
+							<div class="reset_form_button"><a href="javascript:clearForm();" class="booking_button reset_button clear_custom">Temizle</a></div>
+						</div>
+					</div>
+
+				</div>
+			</form>
+
+			<div style="clear:both"></div>
+		</div>
+
+
+		<!-- ===============================================================
+			box after booking
+		================================================================ -->
+		<div id="modal_response" class="modal" style="display:none">
+			Rezervasyonunuz için teşekkür ederiz. Email adresinizi onaylamak için email kutunuzu kontrol edin.    <br><a href="javascript:hideResponse(5,'');" class="booking_button ok_button book_now_custom" id="ok_response">OK</a>
+		</div>
+
+		<!-- preloader -->
+		<div id="modal_loading" class="modal_loading" style="display: none;">
+			<img src="images/loading.png" border="0">
+		</div>
+		<!-- necessary to submit form without reload the page -->
+		<iframe style="border:none;width:0px;height:0px" id="iframe_submit" name="iframe_submit"></iframe>
+	</div>
+
+
+
+
+
+	<div class="info-adress d-table">
+		<span class="d-cell va-middle"><i class="fas fa-map-marker-alt"></i></span>
+		<span class="d-cell va-middle">
+			Eğitim Mahallesi Söğütlüçeşme İş Merkezi NO:1/B Kadıköy / İstanbul
+		</span>
+	</div>
+</div>
+
+
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&amp;subset=latin-ext" rel="stylesheet">
+<link type="text/css" rel="stylesheet" href="css/fontawesome-all.min.css">
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-120534910-1"></script>
+<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+
+		gtag('config', 'UA-120534910-1');
+		gtag('config', 'AW-803579597');
+		gtag('event', 'conversion', {
+		'send_to': 'AW-803579597/5G8hCNPQ3oYBEM3Nlv8C',
+		'event_callback': callback
+	});
+</script>
+
+<!-- Google Code for Website Conversion Page
+In your html page, add the snippet and call
+goog_report_conversion when someone clicks on the
+chosen link or button. -->
+<script type="text/javascript">
+	   /* <![CDATA[ */
+	   goog_snippet_vars = function() {
+		 var w = window;
+		 w.google_conversion_id = 803579597;
+		 w.google_conversion_label = "5G8hCNPQ3oYBEM3Nlv8C";
+		 w.google_remarketing_only = false;
+	   }
+	   // DO NOT CHANGE THE CODE BELOW.
+	   goog_report_conversion = function(url) {
+		 goog_snippet_vars();
+		 window.google_conversion_format = "3";
+		 var opt = new Object();
+		 opt.onload_callback = function() {
+		 if (typeof(url) != 'undefined') {
+		   window.location = url;
+		 }
+	   }
+	   var conv_handler = window['google_trackConversion'];
+	   if (typeof(conv_handler) == 'function') {
+		 conv_handler(opt);
+	   }
+	}
+	/* ]]> */
+</script>
+<script type="text/javascript"
+		src="//www.googleadservices.com/pagead/conversion_async.js">
+</script>
+
+<script type="text/javascript">
+	(function(a,e,c,f,g,h,b,d){var k={ak:"803579597",cl:"9gB7CIjw54kBEM3Nlv8C",autoreplace:"+905452071104"};a[c]=a[c]||function(){(a[c].q=a[c].q||[]).push(arguments)};a[g]||(a[g]=k.ak);b=e.createElement(h);b.async=1;b.src="//www.gstatic.com/wcm/loader.js";d=e.getElementsByTagName(h)[0];d.parentNode.insertBefore(b,d);a[f]=function(b,d,e){a[c](2,b,k,d,null,new Date,e)};a[f]()})(window,document,"_googWcmImpl","_googWcmGet","_googWcmAk","script");
+</script>

@@ -1,0 +1,363 @@
+html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+    box-sizing: border-box;
+}
+
+body {
+    position:relative;
+    background-image: url('/arkaplan3.jpg');
+    max-width: 100%;
+    max-height: fit-content; /* Geniþliði sýnýrlandýr */
+    margin: 0 auto; /* Ortala */
+    overflow: visible; /* Taþan içerik kaydýrýlýr */
+    
+    background-size: cover; /* Ýsteðe baðlý: Arkaplaný tam boyutlandýrýr */
+    background-repeat: no-repeat; /* Ýsteðe baðlý: Tekrar etmemesi için */
+    background-position: center center;
+}
+
+
+
+.siteheader {
+    position: relative !important;
+    left: 14% !important;
+    background-color: transparent !important;
+}
+
+.ahrefi {
+    color: white !important;
+    text-align: center;
+}
+
+.ahrefi2 {
+    color: white !important;
+    text-align: center;
+}
+
+#resimid {
+    margin-top: 20px;
+    width: 300px;
+    height: 50px;
+}
+
+.but-call, .but-whatsapp {
+    color: white !important;
+}
+
+.but-call {
+    display: inline-block !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 10px 20px !important;
+    border: 2px red solid;
+    border-radius: 25px;
+    font-size: 10px !important;
+    font-weight: bold !important;
+    text-decoration: none !important;
+    color: white !important;
+    background-color: #d32f2f !important;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2) !important;
+    margin-left: 33.5% !important;
+}
+
+.but-whatsapp {
+    display: inline-block !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 10px 20px !important;
+    border-radius: 25px !important;
+    font-size: 10px !important;
+    font-weight: bold !important;
+    text-decoration: none !important;
+    color: white !important;
+    background-color: #2e7d32 !important;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2) !important;
+    margin-left: 25px !important;
+}
+
+#resim2id {
+    margin-top: -25px;
+    margin-bottom: 40px;
+    margin-left: 39%;
+    width: 300px;
+    height: 50px;
+}
+
+.divcontainer {
+    padding: 50px;
+    margin-left: 20%;
+    text-align: center;
+    width: 750px;
+    height: 200px;
+    background-color: black;
+    color: white;
+}
+
+.divcontainer2 {
+    margin-top: 25px;
+    padding: 50px;
+    margin-left: 20%;
+    text-align: center;
+    width: 750px;
+    height: 600px;
+    background-color: black;
+    color: white;
+}
+
+.divcontainer3 {
+    margin-top: 5px;
+    padding: 50px;
+    margin-left: 20%;
+    text-align: center;
+    width: 750px;
+    height: 340px;
+    background-color: black;
+    color: white;
+}
+
+.divcontainer4 {
+    margin-top: 5px;
+    padding: 50px;
+    margin-left: 20%;
+    text-align: center;
+    width: 750px;
+    height: 360px;
+    background-color: black;
+    color: white;
+}
+
+.divcontainer5 {
+    margin-top: 5px;
+    padding: 50px;
+    margin-left: 20%;
+    text-align: center;
+    width: 750px;
+    height: 280px;
+    background-color: black;
+    color: white;
+}
+
+.divcontainer6 {
+    margin-top: 5px;
+    padding: 50px;
+    margin-left: 20%;
+    text-align: center;
+    width: 750px;
+    height: 280px;
+    background-color: black;
+    color: white;
+}
+
+.divcontainer7 {
+    margin-top: 5px;
+    padding: 50px;
+    margin-left: 20%;
+    text-align: center;
+    width: 750px;
+    height: 280px;
+    background-color: black;
+    color: white;
+}
+
+.divcontainer8 {
+    margin-top: 5px;
+    padding: 50px;
+    margin-left: 20%;
+    text-align: center;
+    width: 750px;
+    height: 280px;
+    background-color: black;
+    color: white;
+}
+
+
+.tableadres {
+    color: white !important;
+    text-align: left;
+    margin-left: 30%;
+}
+
+.containerfooter {
+    margin-top: 1.5%;
+    margin-left: 15% !important;
+    text-align: center;
+}
+
+.footer a {
+    color: white; /* Baðlantý rengi beyaz */
+    text-decoration: none; /* Alt çizgi kaldýrýldý */
+    margin-right: 10px; /* Ýkonlar arasý boþluk */
+    font-size: 18px; /* Ýkonlarýn boyutu */
+    display: inline-block; /* Ýkonlarýn görünmesi için */
+    vertical-align: middle;
+    /* Ýkonlarýn hizalanmasý için */
+}
+
+    /* Ýkonlarýn hover (üstüne gelince) efekti */
+    .footer a:hover {
+        color: gray; /* Kýrmýzý bir renk */
+        text-decoration: none; /* Alt çizgi olmadan hover */
+    }
+
+/* Sosyal medya ikonlarýna özel stil */
+.foot-socials a i {
+    color: gray; /* Ýkon rengi */
+    font-size: 15px; /* Ýkon boyutu */
+    border: 1px solid gray; /* Beyaz bir çerçeve */
+    padding: 15px; /* Çerçevenin iç boþluðu */
+    border-radius: 5px; /* Kare çerçeve için köþe yuvarlatma (0 olursa keskin köþeler olur) */
+    margin-right: 15px; /* Ýkonlar arasýnda boþluk */
+    margin-top: 27px;
+    display: inline-block; /* Çerçevenin düzgün görünmesi için */
+}
+
+    /* Hover efekti (Çerçeve rengi deðiþir) */
+    .foot-socials a i:hover {
+        color: gray; /* Ýkon hover rengini kýrmýzý yapar */
+        border-color: white; /* Çerçevenin hover rengini kýrmýzý yapar */
+        background-color: white !important;
+        background-color: rgba(255, 255, 255, 0.1); /* Hafif bir arka plan rengi */
+    }
+
+.bordert {
+    position: absolute !important;
+    border-top: none !important;
+    margin-left: 450px !important;
+}
+
+.boyutlandir {
+    background: rgba(0, 0, 0, 0.5); /* Siyah arka plan, %30 opaklýk */
+    color: rgba(255, 255, 255, 1);
+    font-size: 25px;
+    font-weight: bold;
+}
+
+#resim3id {
+    margin-left: -80px;
+}
+
+.opaklik {
+    background: rgba(0, 0, 0, 0.5) !important; /* Siyah arka plan, %30 opaklýk */
+    color: rgba(255, 255, 255, 1) !important;
+}
+
+.kalinvedolgulu p b, i {
+    font-weight: bold;
+    background-color: rgb(20, 20, 20,1) !important;
+}
+
+.image-container {
+    position: relative !important; /* Konumlandýrma için gerekli */
+    display: inline-block !important; /* Görüntünün etrafýnda sýký yerleþim */
+}
+
+    .image-container img {
+        display: block !important; /* Tarayýcýdan kaynaklanan boþluklarý kaldýrýr */
+        width: 100%; /* Resim geniþliðini konteynýra göre ayarlar */
+        height: auto; /* Oranlarý korur */
+    }
+
+    .image-container .text-overlay {
+        position: absolute !important; /* Resim üzerinde konumlandýrma */
+        top: 50%; /* Dikey merkezleme */
+        left: 50%; /* Yatay merkezleme */
+        transform: translate(-50%, -50%); /* Merkezlemek için */
+        color: white; /* Metin rengi */
+        margin-left: -100px;
+        padding: 10px 20px; /* Ýç boþluk */
+        font-size: 16px; /* Yazý boyutu */
+        font-weight: bold; /* Yazýyý kalýn yap */
+        text-align: center; /* Yazýyý ortala */
+    }
+
+.yer {
+    position: absolute !important;
+    margin-left: -250px !important;
+}
+
+.yer1 {
+    font-size: 35px !important;
+}
+
+.icon {
+    display: inline-block !important;
+    background-color: #d32f2f !important;
+}
+
+.icon1 {
+    display: inline-block !important;
+    background-color: #2e7d32 !important;
+}
+
+.listbyt {
+    margin-top: -15px;
+    margin-left: 45px;
+}
+
+.byts {
+    font-size: 13px;
+}
+
+.boyutlandir1 {
+    background: rgba(0, 0, 0, 0.5) !important; /* Siyah arka plan, %30 opaklýk */
+    color: rgba(255, 255, 255, 1);
+    padding: 50px;
+    left: 50%;
+    text-align: center;
+    width: 750px;
+    height: 300px;
+    background-color: black;
+    color: white;
+}
+
+.divcontainer10 {
+    padding: 50px;
+    margin-left: 10%;
+    text-align: center;
+    width: 900px;
+    height: 400px;
+    background-color: black;
+    color: white;
+}
+
+.harita {
+    width: 500px;
+    height: 200px;
+    border:2px solid blue !important;
+}
+
+.hizaveduzenle {
+    margin-left: 150px;
+    text-decoration: none;
+}
+
+    .hizaveduzenle a {
+        text-decoration: none !important;
+        background-color:transparent !important;
+        color:white !important;
+    }
+.rezrenk h2{
+    color:white;
+}
+.rezrenk span {
+    color:white;
+}
+.image-container1{
+    top:215px;
+    left:150px;
+}
